@@ -1,0 +1,436 @@
+\documentclass[a4 paper]{article}
+\usepackage[inner=2.0cm,outer=2.0cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{setspace}
+\usepackage[ruled]{algorithm2e}
+\usepackage[rgb]{xcolor}
+\usepackage{verbatim}
+\usepackage{subcaption}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+% \numberwithin{equation}{section}
+
+\newcommand{\homework}[6]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in { {\bf MATH 118:~Statistics and Probability \hfill {\small (#2)}} }
+       \vspace{6mm}
+       \hbox to 6.28in { {\Large \hfill #1  \hfill} }
+       \vspace{6mm}
+       \hbox to 6.28in { {\it Instructor: {\rm #3} \hfill Name: {\rm #5} \hfill Student Id: {\rm #6}} \hfill}
+       \hbox to 6.28in { {\it Assistant: #4  \hfill #6}}
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{#5 -- #1}{#5 -- #1}
+   \vspace*{4mm}
+}
+
+\newcommand{\problem}[2]{~\\\fbox{\textbf{Problem #1}}\hfill (#2 points)\newline\newline}
+\newcommand{\subproblem}[1]{~\newline\textbf{(#1)}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\Hy}{\mathcal{H}}
+\newcommand{\VS}{\textrm{VS}}
+\newcommand{\solution}{~\newline\textbf{\textit{(Solution)}} }
+
+\newcommand{\bbF}{\mathbb{F}}
+\newcommand{\bbX}{\mathbb{X}}
+\newcommand{\bI}{\mathbf{I}}
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bY}{\mathbf{Y}}
+\newcommand{\bepsilon}{\boldsymbol{\epsilon}}
+\newcommand{\balpha}{\boldsymbol{\alpha}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\0}{\mathbf{0}}
+
+
+\begin{document}
+\homework{Homework \#1}{Due: 26/04/21}{Dr. Zafeirakis Zafeirakopoulos}{Gizem S\"ung\"u}{Muhammed Bedir ULUCAY}{1901042697}
+\textbf{Course Policy}: Read all the instructions below carefully before you start working on the assignment, and before you make a submission.
+\begin{itemize}
+\item It is not a group homework. Do not share your answers to anyone in any circumstance. Any cheating means at least -100 for both sides. 
+\item Do not take any information from the Internet.
+\item No late homework will be accepted. 
+\item For any questions about the homework, come to my office hour.
+\item After the office hour, no questions about the homework by email will be responded.
+\item Submit your homework (both your latex and pdf files in a zip file) into the course page of Moodle.
+\item Save your latex, pdf and zip files as "Name\_Surname\_StudentId".\{tex, pdf, zip\}.
+\item The deadline of the homework is 22/04/21 23:55.
+\end{itemize}
+
+\problem{1}{100}
+
+Homework 1 considers a Covid-19 dataset which is published on \href{https://github.com/owid/covid-19-data/tree/master/public/data}{Github}. Please download any document type that you prefer of the dataset from the links which are shown in Figure \ref{fig:pic}.
+\begin{figure}[htb]
+	
+	\includegraphics[scale=0.5]{pic.png}
+	\caption{The complete dataset links}
+	\label{fig:pic}
+\end{figure}
+The dataset is updated daily and includes data on confirmed cases, deaths, hospitalizations, testing, and vaccinations as well as other variables of potential interest. The data set has the following basic columns:
+\begin{itemize}
+	\item iso\_code: Short name of the country
+	\item continent: The continent where the country exists
+	\item location: The country name
+	\item date: The date when the data about various variables are taken. 
+\end{itemize}
+
+You are responsible to implement a program which reads the given dataset from the file and computes the data for the following questions. Any programming language that you prefer will be accepted. Putting comments on your functions that you implement is must. Each question must be appended to a file which is called "output\{.csv, .txt\}". The file contains the first 18 questions listed below. The 18th question will be written in this document.
+
+\begin{itemize}
+	\item[1. ] How many countries the dataset has?
+	\item[2. ] When is the earliest date data are taken for a country? Which country is it?
+	\item[3. ] How many cases are confirmed for each country so far? Print pairwise results of country and total cases.
+	\item[4. ] How many deaths are confirmed for each country so far? Print pairwise results of country and total deaths.
+	\item[5. ] What are the average, minimum, maximum and variation values of the reproduction rates for each country?
+	\begin{table}[ht]
+		\caption{The format of the output for the questions 5, 6, 7, 8, 9, 10, 12, 13.} % title of Table
+		\centering  % used for centering table
+		\begin{tabular}{c c c c c}% centered columns (4 columns)
+			\hline\hline       %inserts double horizontal lines
+			Country & minimum & maximum & average & variation \\ 
+			[0.5ex]% inserts table 
+			%heading
+			\hline      % inserts single horizontal line
+			value & value & value & value & value \\% inserting body of the table
+			
+			\hline %inserts single line
+		\end{tabular}\label{table:nonlin}% is used to refer this table in the text
+	\end{table}
+	\item[6. ] What are the average, minimum, maximum and variation values of the icu\_patients (intensive care unit patients) for each country?
+	\item[7. ] What are the average, minimum, maximum and variation values of the hosp\_patients (hospital patients) for each country?
+	\item[8. ] What are the average, minimum, maximum and variation values of the weekly icu (intensive care unit) admissions for each country?
+	\item[9. ] What are the average, minimum, maximum and variation values of the weekly hospital admissions for each country?
+	\item[10. ] What are the average, minimum, maximum and variation values of new tests per day for each country?
+	\item[11. ] How many tests are conducted in total for each country so far?
+	\item[12. ] What are the average, minimum, maximum and variation values of the positive rates of the tests for each country?
+	\item[13. ] What are the average, minimum, maximum and variation values of the tests per case for each country?
+	\item[14. ] How many people are vaccinated by at least one dose in each country?
+	\item[15. ] How many people are vaccinated fully in each country?
+	\item[16. ] How many vaccinations are administered in each country so far?
+	\item[17. ] List information about population, median age, \# of people aged 65 older, \# of people aged 70 older, economic performance, death rates due to heart disease, diabetes prevalence, \# of female smokers, \# of	male smokers, 	handwashing facilities,	hospital beds per thousand people,	life expectancy and	human development index.
+		\begin{table}[ht]
+		\caption{The format of the output for the question 17} % title of Table
+		\centering  % used for centering table
+		\begin{tabular}{c c c c}% centered columns (4 columns)
+			\hline\hline       %inserts double horizontal lines
+			Country & population & median age & \# of people aged 65 older \\ 
+			[0.5ex]% inserts table 
+			%heading
+			\hline      % inserts single horizontal line
+			value & value & value & value \\% inserting body of the table
+			
+			\hline %inserts single line
+		\end{tabular}\label{table:nonlin}% is used to refer this table in the text
+	\end{table}
+	\item[18. ] Summarize all the results that you obtain by the first 17 questions (except question 2). 
+	\begin{table}[ht]
+		\caption{The format of the output for the question 18} % title of Table
+		\centering  % used for centering table
+		\begin{tabular}{c c c c c c c}% centered columns (4 columns)
+			\hline\hline       %inserts double horizontal lines
+			Country & q\#3 & q\#4 & q\#5\_min &  q\#5\_max & q\#5\_avg &  q\#5\_var  \\ 
+			[0.5ex]% inserts table 
+			%heading
+			\hline      % inserts single horizontal line
+			 value & value & value & value & value & value & value\\% inserting body of the table
+
+			\hline %inserts single line
+		\end{tabular}\label{table:nonlin}% is used to refer this table in the text
+	\end{table}
+	\item[19. ] Comment the results based on your observations. Write your opinions about the reasons of increasing infection rates by giving examples from the results. Feel free to explain any situation that you observe. More observations more opportunities will bring you for the second homework. 
+	\solution
+	\newline\newline
+	\newline\newline\newline
+    death Rate Of Total Case = total death $\div$  total case\newline\newline
+	Observation 1:\newline
+	Countries with good economic performance kept the disease under better control.We can see the economic and death rate nearly reverse ordering this is proof our observation.As we seen table 4\newline
+	
+
+	\begin{table}[!ht]
+    \centering
+    \caption{Observation 1}
+    \label{tab:Ob1}
+    \begin{tabular}{|c|c|c|}
+    \hline
+
+        country & Death Rate Of Total Case & economic performance \\\hline
+        Canada  & 0.021260 & 44017.591 \\\hline
+        Australia & 0.030864 & 44648.710\\\hline
+        Germany & 0.025616 & 45229.245\\\hline
+        Austria & 0.016721 & 45436.686\\\hline
+        Iceland & 0.004619 & 46482.958\\\hline
+        Denmark & 0.010165 & 46682.515\\\hline
+        Sweden & 0.015419 & 46949.283\\\hline
+        Netherlands & 0.012167 & 48472.545\\\hline
+        Saudi Arabia & 0.016887 & 49045.411\\\hline
+        Cayman Islands &  NaN & 49903.029\\\hline
+        Bermuda & NaN & 50669.315\\\hline
+        United States  & 0.017948 & 54225.446\\\hline
+        Hong Kong & NaN & 56054.920\\\hline
+        San Marino & 0.017166 & 56861.470\\\hline
+        Switzerland & 0.016658 & 57410.166\\\hline
+        Norway & 0.006656 & 64800.057\\\hline
+        Kuwait & 0.005643 & 65530.537\\\hline
+        United Arab Emirates & 0.003144 & 67293.483\\\hline
+
+	\end{tabular}
+    \end{table}
+	
+	\newline
+	Observation 2:\newline
+	If the number of elderly people is high, the death rate is higher than in other countries.We can see the age is when age is growing Death Rate also growing. As we seen table 5\newline
+	
+	\begin{table}[!ht]
+    \centering
+    \caption{Observation 2}
+    \label{tab:Ob2}
+    \begin{tabular}{|c|c|c|}
+    \hline
+    
+        country & aged 65 older & Death Rate\\\hline
+        Netherlands & 18.779 & 0.012167\\\hline
+        Lithuania & 19.002 & 0.016185\\\hline
+        Czechia & 19.027 & 0.017711\\\hline
+        Slovenia & 19.062 & 0.018011\\\hline
+        Austria & 19.202 & 0.016721\\\hline
+        Malta & 19.426 & 0.013509\\\hline
+        Spain & 19.436 & 0.022634\\\hline
+        Estonia & 19.452 & 0.009157\\\hline
+        Denmark & 19.677 & 0.010165\\\hline
+        France & 19.718 & 0.019096\\\hline
+        Croatia & 19.724 & 0.021409\\\hline
+        Latvia & 19.754 & 0.018500\\\hline
+        Sweden & 19.985 & 0.015419\\\hline
+        Greece & 20.396 & 0.029996\\\hline
+        Bulgaria & 20.801 & 0.039134\\\hline
+        Finland & 21.228 & 0.010630\\\hline
+        Germany & 21.453 & 0.025616\\\hline
+        Portugal & 21.502 & 0.020417\\\hline
+        Italy & 23.021 & 0.030301\\\hline
+        Japan & 27.049 & 0.018218\\\hline
+    
+    \end{tabular}
+    \end{table}
+	
+	Observation 3:\newline
+	If hospital bed per thousand's rate is high patients could get better treatment this must be the decrase death rate.As we seen table 6\newline 
+	
+	\begin{table}[!ht]
+    \centering
+    \caption{Observation 3}
+    \label{tab:Ob3}
+    \begin{tabular}{|c|c|c|}
+    \hline
+	
+	    country & hospital beds per thousand people & Death Rate\\\hline
+        Sudan & 0.80 & 0.067047\\\hline
+        Bangladesh & 0.80 & 0.014252\\\hline
+        Myanmar & 0.90 & 0.022481\\\hline
+        Ghana & 0.90 & 0.008367\\\hline
+        Somalia & 0.90 & 0.051102\\\hline
+        Nicaragua & 0.90 & 0.026557\\\hline
+        Philippines & 1.00 & 0.017245\\\hline
+        Central African Republic & 1.00 & 0.013200\\\hline
+        Indonesia & 1.04 & 0.027101\\\hline
+        Gambia & 1.10 & 0.029856\\\hline
+        Bolivia & 1.10 & 0.044049\\\hline
+        Morocco & 1.10 & 0.017703\\\hline
+        Costa Rica & 1.13 & 0.013471\\\hline
+        Qatar & 1.20 & 0.001841\\\hline
+        United Arab Emirates & 1.20 & 0.003144\\\hline
+	
+	\end{tabular}
+    \end{table}
+
+	Observation 4:\newline
+	Smoking increases the mortality rate with the corona.Smoke rate and Death rate are 
+    right proportion.\newline 
+    As we seen table 7.\newline
+	
+	\begin{table}[!ht]
+    \centering
+    \caption{Observation 4}
+    \label{tab:Ob4}
+    \begin{tabular}{|c|c|c|}
+    \hline
+	
+        country & smokerRate(m+f smokers) & Death Rate\\\hline
+        Ghana &  8.0 & 0.008367\\\hline
+        Ethiopia &  8.9 & 0.013887\\\hline
+        Nigeria & 11.4 & 0.012561\\\hline
+        Eritrea & 11.6 & 0.002869\\\hline
+        Panama & 12.3 & 0.017183\\\hline
+        Benin & 12.9 & 0.012482\\\hline
+        Ecuador & 14.3 & 0.049205\\\hline
+        Togo & 15.1 & 0.009579\\\hline
+        Niger & 15.5 & 0.037160\\\hline
+        Oman & 16.1 & 0.010307\\\hline
+        Barbados & 16.4 & 0.011724\\\hline
+        Senegal & 17.0 & 0.027395\\\hline
+        Eswatini & 18.2 & 0.036389\\\hline
+        Colombia & 18.2 & 0.025819\\\hline
+        Cape Verde & 18.6 & 0.009505\\\hline
+        Liberia & 19.6 & 0.041626\\\hline
+        Uganda & 20.1 & 0.008191\\\hline
+        El Salvador & 21.3 & 0.030761\\\hline
+        Kenya & 21.6 & 0.016245\\\hline
+        Iran & 21.9 & 0.030283\\\hline
+        India & 22.5 & 0.012196\\\hline
+        Bahamas & 23.5 & 0.019989\\\hline
+        Costa Rica & 23.8 & 0.013471\\\hline
+        Mali & 24.6 & 0.033134\\\hline
+	
+	\end{tabular}
+    \end{table}
+    \newpage
+    
+    Observation 5:\newline
+    Hitting a covid vacations is slows down the rate of coronary spreading.\newline
+    We cannot see any lowing so we can say vaccation not effecting spreading.As we seen tables 8\newline
+
+    \begin{table}[!ht]
+    \centering
+    \caption{Observation 5}
+    \label{tab:Ob5}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+        location & date         &   new_cases         &  people vaccinated \\\hline
+        Slovenia  & 2021-01-17       & 569.0          &  48659.0\\\hline
+        Slovenia  & 2021-01-18       & 299.0          &  48721.0\\\hline
+        Slovenia  & 2021-01-19      & 1713.0          &  49276.0\\\hline
+        Slovenia  & 2021-01-20      & 1714.0          &  50428.0\\\hline
+        Slovenia  & 2021-01-21      & 1455.0          &  51750.0\\\hline
+        ...&...&...&...\\\hline
+        Slovenia  & 2021-04-11       & 549.0          & 338961.0\\\hline
+        Slovenia  & 2021-04-12       & 287.0          & 340604.0\\\hline
+        Slovenia  & 2021-04-13      & 1050.0          & 343662.0\\\hline
+        Slovenia  & 2021-04-14      & 1240.0          & 351326.0\\\hline
+        Slovenia  & 2021-04-15       & 891.0          & 360451.0\\\hline
+    \end{tabular}
+    \end{table}
+    
+    Observation 6:
+    Does hand washing rate reduce corono emission\newline
+    We will compare two country Vietnam(85.847) and Zambia(13.938)\newline
+    As we seen table 9 and 10 Vietnam population is so much bigger than Zambia but the different hand washing facilities is make huge different covid spreading.\newline
+    \begin{table}[!ht]
+    \centering
+    \caption{Observation 6}
+    \label{tab:Ob61}
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+        location    &    date&  new cases & population & hand washing facilities\\\hline
+        Zambia & 2020-11-23 & 30.0 & 18383956.0 & 13.938\\\hline
+        Zambia & 2020-11-24 & 12.0 & 18383956.0 & 13.938\\\hline
+        Zambia & 2020-11-25 & 69.0 & 18383956.0 & 13.938\\\hline
+        Zambia & 2020-11-26 & 18.0 & 18383956.0 & 13.938\\\hline
+        Zambia & 2020-11-27 & 16.0 & 18383956.0 & 13.938\\\hline
+        ... & ... & ... & ... & ...\\\hline
+        Zambia & 2021-04-11 &     111.0 & 18383956.0 & 13.938\\\hline
+        Zambia & 2021-04-12 &  35.0 & 18383956.0 & 13.938\\\hline
+        Zambia & 2021-04-13 &     154.0 & 18383956.0 & 13.938\\\hline
+        Zambia & 2021-04-14 &     171.0 & 18383956.0 & 13.938\\\hline
+        Zambia & 2021-04-15 &     143.0 & 18383956.0 & 13.938\\\hline
+    
+    \end{tabular}
+    \end{table}
+    
+    
+    \begin{table}[!ht]
+    \centering
+    \caption{Observation 6}
+    \label{tab:Ob62}
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+        location    &    date & new cases & population & hand washing facilities\\\hline
+        Vietnam & 2020-11-23 & 5.0 & 97338583.0 & 85.847\\\hline
+        Vietnam & 2020-11-24 & 4.0 & 97338583.0 & 85.847\\\hline
+        Vietnam & 2020-11-25 & 5.0 & 97338583.0 & 85.847\\\hline
+        Vietnam & 2020-11-26 & 10.0 & 97338583.0 & 85.847\\\hline
+        Vietnam & 2020-11-27 & 8.0 & 97338583.0 & 85.847\\\hline
+        ... &  ... & ... & ... & ...\\\hline
+        Vietnam & 2021-04-11 & 1.0 & 97338583.0 & 85.847\\\hline
+        Vietnam & 2021-04-12 & 12.0 & 97338583.0 & 85.847\\\hline
+        Vietnam & 2021-04-13 & 9.0 & 97338583.0 & 85.847\\\hline
+        Vietnam & 2021-04-14 & 19.0 & 97338583.0 & 85.847\\\hline
+        Vietnam & 2021-04-15 & 25.0 & 97338583.0 & 85.847\\\hline
+   \end{tabular}
+    \end{table}
+    \newpage
+    Observation 7:\newline
+    We are try to determine of heart problem is cause of death with covid.\newline
+    As we seen in table 11 when heart problem death rate is increase also death rate is increase.\newline
+    We can say that the relation betwenn right rate heart disase can cause of death.\newline 
+    
+    \begin{table}[!ht]
+    \centering
+    \caption{Observation 7}
+    \label{tab:Ob7}
+    \begin{tabular}{|c|c|c|}
+    \hline
+    
+        country & death rates due to heart disease & Death Rate\\\hline
+        Colombia & 124.239 &    0.025819\\\hline
+        Ireland & 126.459 &    0.019884\\\hline
+        Portugal & 127.842 &    0.020417\\\hline
+        Chile & 127.993 &    0.022480\\\hline
+        Luxembourg & 128.275 &    0.012161\\\hline
+        Panama & 128.346 &    0.017183\\\hline
+        New Zealand & 128.797 &    0.010035\\\hline
+        Kuwait & 132.235 &    0.005643\\\hline
+        Sweden & 133.982 &    0.015419\\\hline
+        Nicaragua & 137.016 &    0.026557\\\hline
+        Costa Rica & 137.973 &    0.013471\\\hline
+        Ecuador & 140.448 &    0.049205\\\hline
+        Cyprus & 141.171 &    0.005246\\\hline
+        Austria & 145.183 &    0.016721\\\hline
+        United States & 151.089 &    0.017948\\\hline
+        Bahrain & 151.689 &    0.003567\\\hline
+        Mexico & 152.783 &    0.092014\\\hline
+        Slovenia & 153.493 &    0.018011\\\hline
+        Finland & 153.507 &    0.010630\\\hline 
+        ...&...&...\\\hline
+        Somalia & 365.769 & 0.051102\\\hline
+        Philippines & 370.437 & 0.017245\\\hline
+        Romania & 370.946 & 0.025287\\\hline
+        Guyana & 373.159 & 0.022816\\\hline
+        Syria & 376.264 & 0.068266\\\hline
+        Guinea-Bissau & 382.474 & 0.017809\\\hline
+        Montenegro & 387.305 & 0.014857\\\hline
+        Lesotho & 405.126 & 0.029415\\\hline
+        Madagascar & 405.994 & 0.017446\\\hline
+        Moldova & 408.502 & 0.022496\\\hline
+        Fiji & 412.820 & 0.029412\\\hline
+        Morocco & 419.146 & 0.017703\\\hline
+        Pakistan & 423.031 & 0.021447\\\hline
+        Bulgaria & 424.688 & 0.039134\\\hline
+        Tajikistan & 427.698 & 0.006763\\\hline
+        Haiti & 430.548 & 0.019600\\\hline
+        Russia & 431.297 & 0.022210\\\hline
+        Sudan & 431.388 & 0.067047\\\hline
+        Central African Republic & 435.727 & 0.013200\\\hline
+    
+    \end{tabular}
+    \end{table}
+    
+    \newpage
+    
+    
+\end{itemize}
+
+
+\end{document} 
+
+
